@@ -24,10 +24,10 @@ public class StockRepository {
 	private MongoClient mongoClient;
 
 	public List<StockDTO> findAll() {
-		MongoCollection<Document> collection = getColletion();
+		MongoCollection<StockDTO> collection = getColletion();
 		List<StockDTO> result = new LinkedList<StockDTO>();
-		for (Document doc : collection.find()) {
-			
+		for (StockDTO doc : collection.find()) {
+			/*
 			StockDTO dto= new StockDTO();
 			dto.setName(doc.getString("name"));
 //			DATE
@@ -47,11 +47,11 @@ public class StockRepository {
 			value.setStart(start);
 			value.setEnd(end);
 			dto.setValue(value);
-			result.add(dto);
+			result.add(dto);*/
 		}
 		return result;
 	}
-	private MongoCollection<Document> getColletion() {
-		return mongoClient.getDatabase("db1go").getCollection("stocks");
+	private MongoCollection<StockDTO> getColletion() {
+		return mongoClient.getDatabase("db1go").getCollection("stocks", StockDTO.class);
 	}
 }
