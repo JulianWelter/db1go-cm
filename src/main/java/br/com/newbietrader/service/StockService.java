@@ -4,27 +4,18 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import br.com.newbietrader.dto.StockDTO;
 import br.com.newbietrader.dto.StockvalueDTO;
+import br.com.newbietrader.repository.StockRepository;
 @ApplicationScoped
 public class StockService {
-	private List<StockDTO> datebase= new ArrayList<>();
-	
-	public StockService() {
-		StockvalueDTO valueDTO = new StockvalueDTO();
-		valueDTO.setStart(BigDecimal.ONE);
-		valueDTO.setEnd(BigDecimal.TEN);
-		
-		StockDTO dto = new StockDTO();
-		dto.setDate(LocalDate.now());
-		dto.setName("PETR4");
-		dto.setValue(valueDTO);
-		datebase.add(dto);
-	}
+	@Inject
+	private StockRepository stockRepository;
 	
 	public List<StockDTO> findAll(){
-		return  datebase;
+		return  stockRepository.findAll();
 	}
 	
 }
