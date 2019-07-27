@@ -1,5 +1,6 @@
 package br.com.newbietrader.codec;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.bson.BsonReader;
@@ -29,6 +30,11 @@ public class StockDTOCodec implements CollectibleCodec<StockDTO>{
         doc.put("name", dto.getName());
         doc.put("date", dto.getDate());
         doc.put("value", dto.getValue());
+        
+        Document valueDoc = new Document();
+        valueDoc.put("start", dto.getValue().getStatr());
+        valueDoc.put("end", dto.getValue().getEnd());
+
 
         documentCodec.encode(writer, doc, encoderContext);
 	}
@@ -43,9 +49,17 @@ public class StockDTOCodec implements CollectibleCodec<StockDTO>{
 	public StockDTO decode(BsonReader reader, DecoderContext decoderContext) {
 		Document doc = documentCodec.decode(reader, decoderContext);
         StockDTO dto = new StockDTO();
+        
         dto.setName(doc.getString("name"));
         dto.setDate(LocalDate.parse(doc.getString("date")));
-        dto.setValue(doc.get("value", StockvalueDTO.class));
+        
+        
+        Document  valueDoc = doc.get("value", Document.class);
+        StockvalueDTO valueDTO = new StockvalueDTO();
+        valueDTO.setStart(BigDecimal.valueOf(valueDoc.getDouble("start")));
+        valueDTO.setEnd(BigDecimal.valueOf(valueDoc.getDouble("end")));
+        dto.setValue(valueDTO);
+
         return dto;
 	}
 

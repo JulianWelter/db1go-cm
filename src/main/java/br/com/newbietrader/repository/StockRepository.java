@@ -26,9 +26,10 @@ public class StockRepository {
 	public List<StockDTO> findAll() {
 		MongoCollection<StockDTO> collection = getColletion();
 		List<StockDTO> result = new LinkedList<StockDTO>();
-		for (StockDTO doc : collection.find()) {
+		for (StockDTO dto : collection.find()) {
+			result.add(dto);
 			/*
-			StockDTO dto= new StockDTO();
+;			StockDTO dto= new StockDTO();
 			dto.setName(doc.getString("name"));
 //			DATE
 			dto.setDate(LocalDate.parse(doc.getString("date")));
